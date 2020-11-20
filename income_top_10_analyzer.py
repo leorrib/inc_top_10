@@ -5,25 +5,24 @@ class income_top_10_analyzer():
     10% is stored and then generates a sorted DataFrame. The second filters this object, generating another DataFrame containing 
     only the countries/groups of interest. Finally, the third method returns the highest value of the analized index."""
     
-    def __init__(self, *args):
-        self.args = args
+    def __init__(self, country_list):
+        self.country_list = country_list
+        self.df_top_10 = pd.read_csv("original_table\\inc_top_10.csv", header = None, index_col = 1)
 
-    def generating_dataFrame(self):
-        df_top_10 = pd.read_csv("original_table\\inc_top_10.csv", header = None, index_col = 1)
+    def _generating_dataFrame(self):
+        ineq = self.df_top_10.drop(self.df_top_10.iloc[:,0:6], axis = 1)
+        ineq.index.name = None
+        ineq = ineq.T
 
-        self.ineq = df_top_10.drop(df_top_10.iloc[:,0:6], axis = 1)
-        self.ineq.index.name = None
-        self.ineq = self.ineq.T
+        ineq = ineq.rename( columns = {'Country Code': 'Year'} )
+        ineq = ineq.astype({'Year': int})
+        ineq.to_csv('generated_tables\\all_countries_organized.csv')
+        return ineq
 
-        self.ineq = self.ineq.rename( columns = {'Country Code': 'Year'} )
-        self.ineq = self.ineq.astype({'Year': int})
-        self.ineq.to_csv('generated_tables\\all_countries_organized.csv')
-
-        return self.ineq
-
-    def selecting_countries_and_columns(self, data_frame, args):
+    def selecting_countries_and_columns(self):
+        data_frame = self._generating_dataFrame()
         self.columns_of_interest = []
-        for country in args:
+        for country in self.country_list:
             if country == 'BRICS':
                 self.columns_of_interest.extend(['BRA', 'RUS', 'IND', 'CHN', 'ZAF'])
             elif country == 'SOUTHAMERICA':

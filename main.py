@@ -3,9 +3,8 @@ from income_top_10_analyzer import income_top_10_analyzer
 
 list_of_countries = [item.upper() for item in input("Enter the country/group codes: ").replace(" ","").split(',')]
 
-dataset = income_top_10_analyzer()
-sorted_df = dataset.generating_dataFrame()
-country_df, country_columns = dataset.selecting_countries_and_columns(sorted_df, list_of_countries)
+dataset = income_top_10_analyzer(list_of_countries)
+country_df, country_columns = dataset.selecting_countries_and_columns()
 max_val = dataset.selecting_maximum_value(country_df)
 
 country_df.plot(
