@@ -3,7 +3,7 @@ import pandas as pd
 class income_top_10_analyzer():
     """This class contains 3 methods: the first one reads the csv file where data about the income share held by highest 
     10% is stored and then generates a sorted DataFrame. The second filters this object, generating another DataFrame containing 
-    only the countries/groups of interest. Finally, the third method returns the highest value of the analized index."""
+    only the countries/groups of interest. Finally, the third method returns the highest value of the analyzed index."""
     
     def __init__(self, country_list):
         self.country_list = country_list
